@@ -50,7 +50,7 @@ public class UserCreateServlet extends HttpServlet {
 		DataBase.addUser(new User("kkang18x", "1234", "남상칠", "kkang18x@nate.com"));
 		
 //		response.sendRedirect("/index.html");
-		request.setAttribute("users", DataBase.findAll());
+		request.setAttribute("users", DataBase.findAll());							// 헤더에?? 추가되는 내용??
 		RequestDispatcher rd = request.getRequestDispatcher("/user/list.jsp");
 		rd.forward(request, response);
 	}
