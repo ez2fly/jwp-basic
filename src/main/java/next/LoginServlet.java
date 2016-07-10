@@ -3,9 +3,13 @@ package next;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import db.DataBase;
 import model.User;
@@ -16,6 +20,8 @@ import model.User;
 @WebServlet("/user/login")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	private static final Logger logger = LoggerFactory.getLogger(LoginServlet.class);
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -41,15 +47,15 @@ public class LoginServlet extends HttpServlet {
 		String userId = request.getParameter("userId");
 		String password = request.getParameter("password");
 		
+		logger.debug("Login _ DataBase Count : " + DataBase.getDataCount());
+		
 		User user = DataBase.findUserById(userId);
 		if (user != null && user.login(password)) {
-			response.sendRedirect("../index.html");
+			response.addCookie(new Cookie("logined", "true"));
+			response.sendRedirect("/index.html");
 		} else {
-			response.sendRedirect("/login_failed.html");
+			response.sendRedirect("/user/login_failed.html");
 		}
-		
-		
-		// doGet(request, response);
 	}
 
 }
