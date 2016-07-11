@@ -30,7 +30,7 @@ Attribute 개념??
 
 ServletConfig
 // Servlet 객체의 설정정보
-// WebContainer 가 생성하여 SErvlet 객체 init() 호출시 주입
+// WebContainer 가 생성하여 Servlet 객체 init() 호출시 주입
 // Servlet 객체당 하나씩 생성
 ServletContext
 // WebApplication 의 설정정보
@@ -42,3 +42,23 @@ servlet->web.xml->init parameter
 // 소스코드 변경없이 web.xml 수정만으로 서버의 동작수정 가능
 
 
+#160711__수업
+서블릿의 예약된 디렉토리
+// ./WEB-INF, ./WEB-INF/classes, ./WEB-INF/lib, (./WEB-INF/web.xml)
+// 브라우저를 통해 접근 불가한 디렉토리 (Private), 숨길 파일들을 여기에 위치시킨다.
+서블릿의 redirect, forward
+// redirect (302 응답)
+빈, EL
+// EL 에서 객체 . 으로 접근하는 것은 객체에 접근하는것이 아니라 Getter/Setter 에만 접근 하는 것이다.
+Let's Encrypt (https://letsencrypt.org)
+// 무료로 ssl 인증서 제공, 3개월마다 갱신해야함, Chrome 스케줄로 갱신(?)
+SetAttribute, GetAttribute
+// 데이터를 공유하기 위해서는 Forward 방식을 사용해야함
+// 서버 자체적으로 페이지를 옮기기 때문에 Attribute 를 서로 다른 jsp 에서 유지할수 있으나
+// 클라이언트를 한번 갔다오는 Redirect 방식일 경우 유지할 수 없다. (무상태 프로토콜)
+jsp 의 문제점 (html 에 java 코드 닮겨있는 형태)
+// 디버깅 힘들다. 테스트코드 사용 안됨. 오직 수동테스트
+// 실행을 해봐야 문제가 있는지 안다
+// 코드분석도 힘들다.
+MVC
+// 따라서 mvc 가 나왔음
