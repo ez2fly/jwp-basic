@@ -26,7 +26,8 @@ public class UpdateUserController implements Controller {
 				req.getParameter("name"),
 				req.getParameter("email"));
 		log.debug("Update User : {}", updateUser);
-		user.update(updateUser);
+//		user.update(updateUser);
+		DataBase.updateUser(updateUser);
 		return "redirect:/";
 	}
 }
