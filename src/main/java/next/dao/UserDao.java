@@ -67,7 +67,7 @@ public class UserDao {
 		};
 		
 		String sql = "SELECT userId, password, name, email FROM USERS";
-		List<User> users = jdbc.query(sql, (PreparedStatement pstmt)->{}, rowMapper);
+		List<User> users = jdbc.query(sql, rowMapper);
 		
 		return users;
 	}
