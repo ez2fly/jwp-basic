@@ -11,45 +11,18 @@ public class UserDao {
 	private JdbcTemplate<User> jdbc = new JdbcTemplate<User>();
 	
 	public void insert(User user) throws SQLException {
-		
-		PreparedStatementSetter setter=(PreparedStatement pstmt) -> {
-			if (user != null && pstmt != null) {
-				pstmt.setString(1, user.getUserId());
-				pstmt.setString(2, user.getPassword());
-				pstmt.setString(3, user.getName());
-				pstmt.setString(4, user.getEmail());
-			}
-		};
-		
 		String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
-		jdbc.update(sql, setter);
+		jdbc.update(sql, user.getUserId(), user.getPassword(), user.getName(), user.getEmail());
 	}
 	
 	public void update(User user) throws SQLException {
-		PreparedStatementSetter setter = (PreparedStatement pstmt) ->{
-			if (user != null && pstmt != null) {
-				pstmt.setString(1, user.getPassword());
-				pstmt.setString(2, user.getName());
-				pstmt.setString(3, user.getEmail());
-				pstmt.setString(4, user.getUserId());
-			}
-		};
-		
-		
 		String sql = "UPDATE USERS SET password=?, name=?, email=? WHERE userId=?";
-		jdbc.update(sql, setter);
+		jdbc.update(sql, user.getPassword(), user.getName(), user.getEmail(), user.getUserId());
 	}
 	
 	public void delete(String userId) throws SQLException {
-		PreparedStatementSetter setter = (PreparedStatement pstmt) ->{
-			if (pstmt != null) {
-				pstmt.setString(1, userId);
-			}
-		};
-		
-		
 		String sql = "DELETE USERS  WHERE userId=?";
-		jdbc.update(sql, setter);
+		jdbc.update(sql, userId);
 		
 	}
 	
@@ -73,12 +46,6 @@ public class UserDao {
 	}
 
 	public User findByUserId(String userId) throws SQLException {
-		PreparedStatementSetter setter = (PreparedStatement pstmt) ->{
-			if (pstmt != null) {
-				pstmt.setString(1, userId);
-			}
-		};
-		
 		RowMapper<User> rowMapper = (ResultSet rs)->{
 			if (rs != null) {
 				return new User(
@@ -91,7 +58,7 @@ public class UserDao {
 		};
 		
 		String sql = "SELECT userId, password, name, email FROM USERS WHERE userid=?";
-		User user = jdbc.queryForObject(sql, setter, rowMapper);
+		User user = jdbc.queryForObject(sql, rowMapper, userId);
 		return user;
 	}
 	
