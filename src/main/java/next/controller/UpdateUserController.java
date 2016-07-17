@@ -26,8 +26,10 @@ public class UpdateUserController implements Controller {
 				req.getParameter("name"),
 				req.getParameter("email"));
 		log.debug("Update User : {}", updateUser);
-//		user.update(updateUser);
 		DataBase.updateUser(updateUser);
+		
+		user = UserSessionUtils.getUserFromSession(req.getSession());		// 160717_kju : 세션의 user 정보도 변경해준다.	
+		user.update(updateUser);
 		return "redirect:/";
 	}
 }

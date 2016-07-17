@@ -62,9 +62,9 @@ public class DataBase {
 		}
 	}
 	
-	public static void deleteUser(User user) {
+	public static void deleteUser(String userId) {
 		try{
-			users.delete(user);
+			users.delete(userId);
 		}catch(SQLException e) {
 			logger.debug(e.toString());
 		}
