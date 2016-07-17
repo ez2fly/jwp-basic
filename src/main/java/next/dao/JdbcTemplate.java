@@ -10,6 +10,25 @@ import java.util.List;
 import core.jdbc.ConnectionManager;
 
 public class JdbcTemplate<T> {
+	public void update(String sql, PreparedStatementSetter pstmtSetter) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = ConnectionManager.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmtSetter.values(pstmt);
+
+			pstmt.executeUpdate();
+		} finally {
+			if (pstmt != null) {
+				pstmt.close();
+			}
+
+			if (con != null) {
+				con.close();
+			}
+		}
+	}
 	
 	public void update(String sql, Object... values) throws SQLException {
 		Connection con = null;
