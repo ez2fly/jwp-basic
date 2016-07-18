@@ -8,6 +8,8 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import next.model.Answer;
+import next.model.Result;
+import core.jdbc.DataAccessException;
 import core.jdbc.JdbcTemplate;
 import core.jdbc.KeyHolder;
 import core.jdbc.PreparedStatementCreator;
@@ -32,6 +34,17 @@ public class AnswerDao {
 		KeyHolder keyHolder = new KeyHolder();
         jdbcTemplate.update(psc, keyHolder);
         return findById(keyHolder.getId());
+    }
+    
+    public Result delete(long answerId) {
+    	try {
+	    	JdbcTemplate jdbcTemplate = new JdbcTemplate();
+	    	String sql = "DELETE ANSWERS WHERE answerId = ?";
+	    	jdbcTemplate.update(sql, answerId);
+	    	return Result.ok();
+    	} catch(DataAccessException e) {
+    		return Result.fail(e.toString());
+    	}
     }
 
     public Answer findById(long answerId) {
