@@ -12,7 +12,7 @@ function addAnswer(e) {
     data : queryString,
     dataType : 'json',
     error: onError,
-    success : onSuccess,
+    success : onSuccess
   });
 }
 
@@ -36,3 +36,28 @@ String.prototype.format = function() {
         ;
   });
 };
+
+
+$(".form-delete button[type=submit]").click(delAnswer)
+
+function delAnswer(e) {
+	e.preventDefault();
+	
+	var btnDelete = $(this);
+	var queryString = btnDelete.closest("form").serialize();
+	
+	$.ajax({
+	    type : 'post',
+	    url : '/api/qna/deleteAnswer',
+	    data : queryString,
+	    dataType : 'json',
+	    error: onError,
+	    success : function(json, status){
+	    	if (json.result.status) {
+	    		btnDelete.closest("article").remove();
+	    	} else {
+	    		alert(json.result.message)
+	    	}
+	    }
+	  });
+}

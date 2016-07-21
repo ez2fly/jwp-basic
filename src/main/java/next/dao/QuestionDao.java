@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import next.model.Question;
+import next.model.User;
 import core.jdbc.JdbcTemplate;
 import core.jdbc.RowMapper;
 
@@ -45,5 +46,19 @@ public class QuestionDao {
 		};
 		
 		return jdbcTemplate.queryForObject(sql, rm, questionId);
+	}
+	
+	public void insert(Question newQuestion) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        String sql = "INSERT INTO QUESTIONS(writer, title, contents, createdDate, countOfAnswer) VALUES (?, ?, ?, CURRENT_TIMESTAMP(), 0)";
+        jdbcTemplate.update(sql, newQuestion.getWriter()
+        			,newQuestion.getTitle()
+        			,newQuestion.getContents());
+    }
+	
+	public void updateCountOfAnswer(long questionId, int countOfAnswer) {
+		JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        String sql = "UPDATE QUESTIONS SET countOfAnswer=? WHERE questionId=?";
+        jdbcTemplate.update(sql, questionId, countOfAnswer);
 	}
 }
