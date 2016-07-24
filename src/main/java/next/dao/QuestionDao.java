@@ -9,9 +9,8 @@ import next.model.User;
 import core.jdbc.JdbcTemplate;
 import core.jdbc.RowMapper;
 
-public class QuestionDao {
+public class QuestionDao extends ObjectDao {
 	public List<Question> findAll() {
-		JdbcTemplate jdbcTemplate = new JdbcTemplate();
 		String sql = "SELECT questionId, writer, title, createdDate, countOfAnswer FROM QUESTIONS "
 				+ "order by questionId desc";
 		
@@ -30,7 +29,6 @@ public class QuestionDao {
 	}
 
 	public Question findById(long questionId) {
-		JdbcTemplate jdbcTemplate = new JdbcTemplate();
 		String sql = "SELECT questionId, writer, title, contents, createdDate, countOfAnswer FROM QUESTIONS "
 				+ "WHERE questionId = ?";
 		
@@ -49,7 +47,6 @@ public class QuestionDao {
 	}
 	
 	public void insert(Question newQuestion) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
         String sql = "INSERT INTO QUESTIONS(writer, title, contents, createdDate, countOfAnswer) VALUES (?, ?, ?, CURRENT_TIMESTAMP(), 0)";
         jdbcTemplate.update(sql, newQuestion.getWriter()
         			,newQuestion.getTitle()
@@ -57,8 +54,17 @@ public class QuestionDao {
     }
 	
 	public void updateCountOfAnswer(long questionId, int countOfAnswer) {
-		JdbcTemplate jdbcTemplate = new JdbcTemplate();
         String sql = "UPDATE QUESTIONS SET countOfAnswer=? WHERE questionId=?";
-        jdbcTemplate.update(sql, questionId, countOfAnswer);
+        jdbcTemplate.update(sql, countOfAnswer, questionId);
+	}
+	
+	public void update(long questionId, String title, String contents) {
+		String sql = "UPDATE QUESTIONS SET title=?, contents=? WHERE questionId=?";
+		jdbcTemplate.update(sql, title, contents, questionId);
+	}
+	
+	public void delete(long questionId) {
+		String sql = "DELETE QUESTIONS WHERE questionId=?";
+		jdbcTemplate.update(sql, questionId);
 	}
 }

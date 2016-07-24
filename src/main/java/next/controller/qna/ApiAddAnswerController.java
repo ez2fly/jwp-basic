@@ -13,8 +13,8 @@ import next.dao.QuestionDao;
 import next.model.Answer;
 import next.model.Question;
 
-public class AddAnswerController extends AbstractController {
-	private static final Logger log = LoggerFactory.getLogger(AddAnswerController.class);
+public class ApiAddAnswerController extends AbstractController {
+	private static final Logger log = LoggerFactory.getLogger(ApiAddAnswerController.class);
 
 	private AnswerDao answerDao = new AnswerDao();
 	private QuestionDao questionDao = new QuestionDao();
@@ -31,7 +31,6 @@ public class AddAnswerController extends AbstractController {
 		if (question != null) {
 			int count = question.getCountOfComment() + 1;
 			questionDao.updateCountOfAnswer(questionId, count);
-			
 			log.debug("update answer count : " + count);
 		}
 		

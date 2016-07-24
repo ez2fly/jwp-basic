@@ -38,18 +38,25 @@
 							<li>
 							<c:choose>
 								<c:when test="${sessionScope.user.name eq question.writer}">
-								<a class="link-modify-article" href="/api/qna/updateQeustion?questionId=${question.questionId}">수정</a>
+									<a class="link-modify-article" href="/qna/updateForm?questionId=${question.questionId}">수정</a>
 								</c:when>
 								<c:otherwise>
-								<a class="link-modify-article" href="#">수정</a>
+									<a class="link-modify-article" href="#">수정</a>
 								</c:otherwise>
         					</c:choose>
 							</li>
 							<li>
-								<form class="form-delete" action="#" method="POST">
-									<input type="hidden" name="_method" value="DELETE">
-									<button class="link-delete-article" type="submit">삭제</button>
-								</form>
+							<c:choose>
+								<c:when test="${sessionScope.user.name eq question.writer and questionDeleteAvailable eq true}">
+									<form class="form-delete-question" action="/api/qna/delete" method="POST">
+										<input type="hidden" name="questionId" value="${question.questionId}">
+										<button class="link-delete-article" type="submit">삭제</button>
+									</form>
+								</c:when>
+								<c:otherwise>
+									<a class="link-delete-article" href="#">삭제</a>
+								</c:otherwise>
+							</c:choose>
 							</li>
 							<li>
 								<a class="link-modify-article" href="/">목록</a>
@@ -83,8 +90,9 @@
 											<a class="link-modify-article" href="/api/qna/updateAnswer?answerId=5">수정</a>
 										</li>
 										<li>
-											<form class="form-delete" action="/api/qna/deleteAnswer" method="POST">
+											<form class="form-delete-answer" action="/api/qna/deleteAnswer" method="POST">
 												<input type="hidden" name="answerId" value="${answer.answerId}">
+												<input type="hidden" name="questionId" value="${question.questionId}">
 												<button type="submit" class="link-delete-article">삭제</button>
 											</form>
 										</li>

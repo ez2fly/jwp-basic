@@ -38,7 +38,7 @@ String.prototype.format = function() {
 };
 
 
-$(".form-delete button[type=submit]").click(delAnswer)
+$(".form-delete-answer button[type=submit]").click(delAnswer)
 
 function delAnswer(e) {
 	e.preventDefault();
@@ -60,4 +60,43 @@ function delAnswer(e) {
 	    	}
 	    }
 	  });
+}
+
+
+$(".form-delete-question button[type=submit]").click(delQuestion)
+
+function delQuestion(e) {
+	e.preventDefault();
+	
+	 var smartPhones = [
+	                    
+	                    'iphone', 'ipad', 'windows ce', 'android', 'blackberry', 'nokia',
+	                    'webos', 'opera mini', 'sonyerricsson', 'opera mobi', 'iemobile'
+	 ];
+	 
+	 var isSmartPhone = false;
+	 for (var i in smartPhones) {
+		 if(navigator.userAgent.toLowerCase().match(new RegExp(smartPhones[i]))) {
+			 isSmartPhone = true;
+			 break;
+	 	 }
+	 }
+	 
+	 var btnDelete = $(this);
+	 var queryString = btnDelete.closest("form").serialize();
+	 
+	 if (isSmartPhone) {
+		 $.ajax({
+		    type : 'post',
+		    url : '/api/qna/deleteQuestion',
+		    data : queryString,
+		    dataType : 'json',
+		    error: onError,
+		    success : function(json, status){
+		    	alert(json.result.message);
+		    }
+		  });
+	 } else {
+		 location.href="/qna/delete?" + queryString;
+	 }
 }
